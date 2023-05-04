@@ -15,13 +15,11 @@
 #define C_HAT3 2
 #define C_HAT4 10
 
-#define R_THRUST_MIN 500
-#define R_THRUST_MAX 1000
 #define L_THRUST_MIN 460
 #define L_THRUST_MAX 1000
 
 Joystick_ Joystick(
-  0x03,
+  0x07,
   JOYSTICK_TYPE_JOYSTICK,
   4,
   2,
@@ -54,13 +52,11 @@ void setup() {
   pinMode(L_TRIGGER, INPUT_PULLUP);
   pinMode(R_TRIGGER, INPUT_PULLUP);
 
-  Joystick.setYAxisRange(R_THRUST_MIN, R_THRUST_MAX);
-  Joystick.setXAxisRange(R_THRUST_MIN, L_THRUST_MAX);
+  Joystick.setXAxisRange(L_THRUST_MIN, L_THRUST_MAX);
   Joystick.begin();
 }
 
 void loop() {
-  Joystick.setYAxis(analogRead(L_THRUST));
   Joystick.setXAxis(analogRead(R_THRUST));
   Joystick.setButton(0, !digitalRead(L_TRIGGER));
   Joystick.setButton(1, !digitalRead(R_TRIGGER));
@@ -75,6 +71,8 @@ void loop() {
     Joystick.setHatSwitch(0, 180);
   } else if (digitalRead(B_HAT4) == LOW) {
     Joystick.setHatSwitch(0, 270);
+  } else {
+    Joystick.setHatSwitch(0, -1);
   }
 
   if(digitalRead(C_HAT1) == LOW) {
@@ -85,5 +83,7 @@ void loop() {
     Joystick.setHatSwitch(1, 180);
   } else if (digitalRead(C_HAT4) == LOW) {
     Joystick.setHatSwitch(1, 270);
+  } else {
+    Joystick.setHatSwitch(1, -1);
   }
 }
